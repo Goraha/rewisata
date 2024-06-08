@@ -1,6 +1,6 @@
 "use client";
 
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { GoogleMap, useJsApiLoader,Marker,InfoWindow,OverlayView  } from '@react-google-maps/api';
 
 const containerStyle = {
@@ -17,44 +17,19 @@ const parapat = {
   lat: 2.725882167101786, 
   lng: 98.89980841694229
 };
-const markers = [
-  {
-    id: 1,
-    name: "Huta Siallagan",
-    position: { lat:2.680610915101795, lng: 98.83577102141871 },
-    slot: 1000,
-    onsite:500,
-    aviable:500
-  },
-  {
-    id: 2,
-    name: "Bukit Sipolha",
-    position: { lat: 2.7360129268475664, lng: 98.85939244752848 },
-    slot: 1000,
-    onsite:500,
-    aviable:500
-  },
-  {
-    id: 3,
-    name: "Pantai Paris",
-    position: { lat: 2.8017557385863054,lng: 98.78007403637784 },
-    slot: 1000,
-    onsite:500,
-    aviable:500
-  },
-  {
-    id: 4,
-    name: "Penatapan Simarjarunjung",
-    position: { lat: 2.833630535763868,  lng: 98.76412670960711 },
-    slot: 1000,
-    onsite:500,
-    aviable:500
-  }
-];
 
-function Map() {
+
+function Map(props:any) {
+  const data = props.data;
+
+  const [markers, setMarkers] = useState(
+    data
+  )
+
+  //console.log(data);
+  //console.log(markers[0].location.latitude);
+
   const [activeMarker, setActiveMarker] = useState(null);
-
   const handleActiveMarker = (marker:any) => {
     if (marker === activeMarker) {
       return;
@@ -89,18 +64,18 @@ function Map() {
         onClick={onClick}
       >
         
-        {markers.map(({ id, name, position, slot, onsite, aviable }) => (
+        {markers.map((dt:any) => (
         <Marker 
-          key={id}
-          position={position}
-          onClick={() => handleActiveMarker(id)}
+          key={dt.id}
+          position={{lat: dt.location.latitude,lng: dt.location.longitude}}
+          onClick={() => handleActiveMarker(dt.id)}
         >
-          {activeMarker === id ? (
+          {activeMarker === dt.id ? (
             <InfoWindow onCloseClick={() => setActiveMarker(null)}>
               <div>
                 <div>
-                <h1>{name}</h1>
-                <p>Slots : {slot}</p>
+                <h1>{dt.nama}</h1>
+                <p>Slots : {dt.kapasitas}</p>
                 </div>
                 <div className='flex justify-center items-center'>
                   <button className='bg-red-500 text-white p-2 rounded block' onClick={() => setActiveMarker(null)}>Detail</button>
