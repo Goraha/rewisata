@@ -21,7 +21,6 @@ export default async function Page() {
   ), [])
 
   const data = await getData();
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-5">
       <div className="w-full h-fit p-5 border-2 my-5 rounded">
