@@ -1,4 +1,4 @@
-import Map from "./Map";
+
 import { FaMagnifyingGlass  } from "react-icons/fa6";
 
 async function getData() {
@@ -9,7 +9,6 @@ async function getData() {
     return res.json();
   }
 }
-
 
 export default async function Home() {
   const destinasi = await getData();
@@ -29,7 +28,7 @@ export default async function Home() {
         </div>
 
         <div className="w-full h-96 my-5">
-          <Map data={destinasi.data}/>
+          
         </div>
       </div>
 
