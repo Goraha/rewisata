@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import { FaMagnifyingGlass  } from "react-icons/fa6";
-
+import DestList from "@/components/DestList";
 async function getData() {
   const res = await fetch('http://localhost:3000/api/destinasi');
   if(!res.ok){
@@ -22,8 +22,9 @@ export default async function Page() {
 
   const data = await getData();
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-5">
-      <div className="w-full h-fit p-5 border-2 my-5 rounded">
+    <main className="flex flex flex-col sm:flex-row min-h-screen p-5">
+
+      <div className="w-full sm:w-2/3 h-fit border-2 p-5 my-5 mx-0 sm:mx-5 rounded">
         <div className="w-full">
           <div className="relative flex rounded-lg shadow-sm">
             <input type="text" className="py-3 px-4 ps-11 block w-full border-gray-200 shadow-sm rounded-s-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" />
@@ -38,10 +39,8 @@ export default async function Page() {
         </div>
       </div>
       
-      <div className="w-full h-96 bg-red-500">
-        {
-         
-        }
+      <div className="w-full sm:w-1/3 h-fit my-5 p-5 border-2 rounded">
+        <DestList data={data}/>
       </div>
     </main>
   )
