@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function Navbar() {
   const [navbar, setNavbar] = useState(false);
   return (
-    <nav className="flex items-center justify-between flex-wrap p-4 bg-gradient-to-r from-violet-900 via-sky-600 to-sky-500">
+  <nav className="flex items-center justify-between flex-wrap p-4 bg-gradient-to-r from-violet-900 via-sky-600 to-sky-500">
     <div className="flex items-center flex-shrink-0 text-white mr-6">
       <FaWindows />
       <span className="font-semibold text-xl tracking-tight">ReWisata</span>
