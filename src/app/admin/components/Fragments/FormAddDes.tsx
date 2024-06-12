@@ -4,7 +4,7 @@ import { GeoPoint} from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import InputForm from "../Elements/Input";
-
+import Button from "../Elements/Button";
 export default function FormAddDes() {
   
   const {push} = useRouter();
@@ -32,6 +32,7 @@ export default function FormAddDes() {
       push("/admin/destinasi");
       setLoading(false);
       setError("");
+      alert("Berhasilang Menyimpan Data");
     }else{
       console.log(res);
       setError("Gagal Menyimpan Data");
@@ -62,11 +63,11 @@ export default function FormAddDes() {
           <InputForm tipe="text" label="Latitude" name="lat" type="text" placeholder="1" divWidth="md:w-1/4"/>
           <InputForm tipe="text" label="Longtitude" name="lon" type="text" placeholder="1" divWidth="md:w-1/4"/>
         </div>
-        <div className="md:flex md:items-center">
-          <div className="md:w-2/3">
-            <button type="submit" className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
-              Simpan
-            </button>
+        <div className="flex items-center justify-between">
+          <div className="md:w-1/4">
+            <Button variant="bg-blue-500 w-full" type="submit">
+                Simpan
+            </Button>
           </div>
         </div>
       </form>
