@@ -5,7 +5,13 @@ import DestList from "@/components/DestList";
 import Navbar from "@/components/Navbar";
 
 async function getData() {
-  const res = await fetch('http://localhost:3000/api/destinasi');
+  //const res = await fetch('http://localhost:3000/api/destinasi');
+  const res = await fetch('http://localhost:3000/api/destinasi',
+    {
+      cache:"no-store",
+    }
+
+  );
   if(!res.ok){
     throw new Error('Failed to fetch data');
   }else{

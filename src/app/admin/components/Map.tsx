@@ -1,6 +1,6 @@
 "use client"
-import React, { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap,useMapEvents } from "react-leaflet";
+import React, { useState } from "react";
+import { MapContainer, TileLayer, Marker,useMapEvents,useMap,Tooltip } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
@@ -16,18 +16,15 @@ const icon = L.icon(
 	}
 );
 
-interface PositionData {
-	lat: number,
-	lng: number,
-}
-
-const Maps = ({ sendDataToParent  }:any) => {
-
-	const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0,0]);
-  
-
+const Maps = (props:any) => {
+  const { sendDataToParent, lat=1, lng=1} = props;
+	const [selectedPosition, setSelectedPosition] = useState<[number, number]>([Number(lat),Number(lng)]);
   function Markers () {
-    const map = useMapEvents({
+    const map = useMap();
+    //console.log(selectedPosition)
+   
+
+    useMapEvents({
       click(e) {                                
         setSelectedPosition([
           e.latlng.lat,
@@ -35,21 +32,23 @@ const Maps = ({ sendDataToParent  }:any) => {
         ]);
         //console.log(e.latlng)
         sendDataToParent(e.latlng);
-      },            
-    })
+      },
+    });
+
+    map.flyTo(selectedPosition, map.getZoom());
     return (
         selectedPosition ? 
-          <Marker           
-          key={selectedPosition[0]}
+          <Marker
           position={selectedPosition}
           interactive={false} 
-          />
+          >
+             <Tooltip permanent>
+                  <span>{selectedPosition[0]} | {selectedPosition[1]}</span>
+            </Tooltip>
+          </Marker>
         : null
     )
   }
-
-
-	
 
   return (
     <MapContainer

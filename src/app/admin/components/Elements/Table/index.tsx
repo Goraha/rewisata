@@ -84,9 +84,12 @@ export default function Table(props:any) {
                       {item.harga}
                     </td>
                     <td className='text-center w-1/6'>
-                    <Button variant="bg-slate-500" type="button">
-                      <FaFilePen  />
-                    </Button>
+                    <Link href={`/admin/destinasi/ubah?id=${item.id}`}>
+                      <Button variant="bg-blue-500">
+                        <FaFilePen />
+                      </Button>
+                    </Link>
+                    
                     <Button variant="bg-red-500 ml-1" id={item.id}>
                       <FaFileCircleMinus />
                     </Button>

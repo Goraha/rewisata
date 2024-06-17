@@ -7,6 +7,7 @@ export async function GET(request: NextRequest) {
 
   const {searchParams} = new URL(request.url);
   const id = searchParams.get('id');
+  console.log(id);
   if(id){
     const detailDestinasi = data.find((item)=>item.id === id);
     if(detailDestinasi){
