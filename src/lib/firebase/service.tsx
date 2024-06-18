@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, getFirestore, query,GeoPoint,updateDoc,doc,deleteDoc } from "firebase/firestore";
+import { addDoc, collection, getDocs, getFirestore,GeoPoint,updateDoc,doc,deleteDoc } from "firebase/firestore";
 import app from "./init";
 
 const firestore = getFirestore(app);
@@ -12,23 +12,7 @@ export async function retData(CollactionName: string) {
   return data
 }
 
-export async function insertData(
-  data:{
-    nama: string,
-    alamat: string,
-    kontak: string,
-    surel: string,
-    tentang: string,
-    kapasitas: number,
-    harga: number,
-    location: GeoPoint,
-    //location: {latitude:number,longitude:number},
-  }
-) 
-{
-  const q = query(
-    collection(firestore, "destinasi"),
-  );
+export async function insertData(data:any,CollactionName: string){
   try {
     await addDoc(collection(firestore, "destinasi"), data);
     return {status:true,statusCode:200,massage:"Sukses add data"}
@@ -37,32 +21,9 @@ export async function insertData(
   }
 }
 
-export async function updateData(
-  data:{
-    id: string,
-    nama: string,
-    alamat: string,
-    kontak: string,
-    surel: string,
-    tentang: string,
-    kapasitas: number,
-    harga: number,
-    location: GeoPoint,
-    //location: {latitude:number,longitude:number},
-  }
-) 
-{
+export async function updateData(data:any,CollactionName: string){
   try {
-    await updateDoc(doc(firestore, "destinasi", data.id), {
-      nama: data.nama,
-      alamat: data.alamat,
-      kontak: data.kontak,
-      surel: data.surel,
-      tentang: data.tentang,
-      kapasitas: data.kapasitas,
-      harga: data.harga,
-      location: data.location,
-    });
+    await updateDoc(doc(firestore, "destinasi", data.id), data);
     //await addDoc(collection(firestore, "destinasi"), data);
     return {status:true,statusCode:200,massage:"Sukses update data"}
   } catch (error) {
@@ -70,12 +31,7 @@ export async function updateData(
   }
 }
 
-export async function deleteData(
-  data:{
-    id: string,
-  }
-) 
-{
+export async function deleteData(data:{id: string,},CollactionName: string){
   try {
     await deleteDoc(doc(firestore, "destinasi", data.id));
     //await addDoc(collection(firestore, "destinasi"), data);

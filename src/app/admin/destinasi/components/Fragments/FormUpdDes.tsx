@@ -2,21 +2,21 @@
 import { FaLocationCrosshairs,FaRegCircleXmark } from "react-icons/fa6";
 import { GeoPoint} from "firebase/firestore";
 import { useRouter } from "next/navigation";
-import { useState} from "react";
-import InputForm from "../Elements/Input";
-import Button from "../Elements/Button";
-import Map from "../Map";
+import { useState  } from "react";
+import InputForm from "../../../components/Elements/Input";
+import Button from "../../../components/Elements/Button";
+import Map from "../../../components/Map";
 
-export default function FormAddDes() {
-  
+export default function FormUpdDes(props:any) {
+  const data =props.data.data;
   const {push} = useRouter();
   const [error,setError] = useState("");
   const [loading,setLoading] = useState(false);
   const [stModal,setstModal] = useState(false);
   const [posisi, setPosisi] = useState([
     {
-      lat:0,
-      lng:0,
+      lat:data?.location.latitude,
+      lng:data?.location.longitude,
     }
   ]);
 
@@ -37,9 +37,10 @@ export default function FormAddDes() {
     e.preventDefault();
     setError("");
     setLoading(true);
-    const res = await fetch("/api/destinasi/add", {
+    const res = await fetch("/api/destinasi/update", {
       method: "POST",
       body: JSON.stringify({
+        id: data.id,
         nama: e.target.nama.value,
         alamat: e.target.alamat.value,
         kontak: e.target.kontak.value,
@@ -72,17 +73,17 @@ export default function FormAddDes() {
         }
         <form className="w-full" onSubmit={(e)=>handleSubmit(e)}>
           <div className="flex flex-wrap -mx-3 mb-6">
-            <InputForm tipe="text" label="Nama Destinasi" name="nama" type="text" placeholder="Nama Destinasi..." divWidth="md:w-1/4"/>
-            <InputForm tipe="text" label="Alamat" name="alamat" type="text" placeholder="" divWidth="md:w-1/4"/>
-            <InputForm tipe="text" label="Kontak" name="kontak" type="text" placeholder="08xxxxxxx" divWidth="md:w-1/4"/>
-            <InputForm tipe="text" label="Surel" name="surel" type="email" placeholder="gpa@gmail.com" divWidth="md:w-1/4"/>
+            <InputForm tipe="text" value={data?.nama} label="Nama Destinasi" name="nama" type="text" placeholder="Nama Destinasi..." divWidth="md:w-1/4"/>
+            <InputForm tipe="text" value={data?.alamat} label="Alamat" name="alamat" type="text" placeholder="" divWidth="md:w-1/4"/>
+            <InputForm tipe="text" value={data?.kontak} label="Kontak" name="kontak" type="text" placeholder="08xxxxxxx" divWidth="md:w-1/4"/>
+            <InputForm tipe="text" value={data?.surel} label="Surel" name="surel" type="email" placeholder="gpa@gmail.com" divWidth="md:w-1/4"/>
           </div>
           <div className="flex flex-wrap -mx-3 mb-6">
-            <InputForm tipe="textarea" label="Tentang" name="tentang" type="" placeholder="" divWidth="md:w-full"/>
+            <InputForm tipe="textarea" value={data?.tentang} label="Tentang" name="tentang" type="" placeholder="" divWidth="md:w-full"/>
           </div>
           <div className="flex flex-wrap -mx-3 mb-6">
-            <InputForm tipe="text" label="Kapasitas" name="kapasitas" type="number" placeholder="1" divWidth="md:w-1/4"/>
-            <InputForm tipe="text" label="Harga Tiket" name="harga" type="number" placeholder="1" divWidth="md:w-1/4"/>
+            <InputForm tipe="text" value={data?.kapasitas} label="Kapasitas" name="kapasitas" type="number" placeholder="1" divWidth="md:w-1/4"/>
+            <InputForm tipe="text" value={data?.harga} label="Harga Tiket" name="harga" type="number" placeholder="1" divWidth="md:w-1/4"/>
             <div className="w-full px-3 md:w-1/3">
               <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
                 Lokasi
@@ -123,7 +124,7 @@ export default function FormAddDes() {
               
             <div className="p-4 md:p-5 space-y-4">
               <div className="w-full h-96">
-                <Map sendDataToParent={sendDataToParent}/>
+                <Map sendDataToParent={sendDataToParent} lat={posisi[0].lat} lng={posisi[0].lng}/>
               </div>
             </div>
           </div>

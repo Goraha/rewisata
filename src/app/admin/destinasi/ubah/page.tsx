@@ -1,4 +1,4 @@
-import FormUpdDes from "../../components/Fragments/FormUpdDes";
+import FormUpdDes from "../components/Fragments/FormUpdDes";
 
 async function getData(id:any) {
   const res = await fetch(`http://localhost:3000/api/destinasi?id=${id}`,{

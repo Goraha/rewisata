@@ -1,4 +1,4 @@
-import FormAddDes from "../../components/Fragments/FormAddDes";
+import FormAddDes from "../components/Fragments/FormAddDes";
 
 export default async function Page() {
   return (
