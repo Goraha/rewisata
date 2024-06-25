@@ -6,6 +6,7 @@ import { useState  } from "react";
 import InputForm from "../../../components/Elements/Input";
 import Button from "../../../components/Elements/Button";
 import Map from "../../../components/Map";
+import Modal from "../../../components/LayModal";
 
 export default function FormUpdDes(props:any) {
   const data =props.data.data;
@@ -107,29 +108,10 @@ export default function FormUpdDes(props:any) {
             </div>
           </div>
         </form>
-        <div id="default-modal" aria-hidden="true" className={`${stModal ? "block" : "invisible"} fixed top-0 right-0 left-0 md:left-1/3 z-50 w-full`}>
-          <div className="relative p-4 w-full max-w-2xl max-h-full">
-              
-            <div className="relative bg-white rounded-lg drop-shadow-2xl bg-gray-50">
-          
-            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-              <h3 className="text-xl font-semibold text-black">
-                Lokasi
-              </h3>
-              <button type="button" className="hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="default-modal"  onClick={handleOnClick}>
-                  <FaRegCircleXmark />
-                <span className="sr-only">Close modal</span>
-              </button>
-            </div>
-              
-            <div className="p-4 md:p-5 space-y-4">
-              <div className="w-full h-96">
-                <Map sendDataToParent={sendDataToParent} lat={posisi[0].lat} lng={posisi[0].lng}/>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <Modal title="Pilih Lokasi" stModal={stModal}>
+          <Map sendDataToParent={sendDataToParent} lat={posisi[0].lat} lng={posisi[0].lng}/>
+        </Modal>
+       
       </>
       
   

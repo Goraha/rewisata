@@ -1,12 +1,21 @@
 'use client'
-import React, { useState } from 'react'
+import { FaLocationCrosshairs,FaRegCircleXmark } from "react-icons/fa6";
+import { GeoPoint} from "firebase/firestore";
+import { useRouter } from "next/navigation";
+import { useState} from "react";
 import { FaFilePen,FaFileCircleMinus,FaMagnifyingGlass,FaFileCirclePlus,FaChevronRight,FaChevronLeft } from "react-icons/fa6";
-import Button from "../../Elements/Button";
+import Button from "../../../components/Elements/Button";
 import Link from 'next/link';
+import Modal from "../../../components/LayModal";
+import InputForm from "../../../components/Elements/Input";
 
 export default function Table(props:any) {
   const {data,} = props;
-
+  const [stModal,setstModal] = useState(false);
+  const [deleteID,setdeleteID] = useState("");
+  const [error,setError] = useState("");
+  const [loading,setLoading] = useState(false);
+  const {push} = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');
   const searchFilter = (array:any) => {
@@ -19,6 +28,12 @@ export default function Table(props:any) {
   const handleChange = (e:any) => {
     setSearch(e.target.value);
   }
+
+  const handleOnClick = (e:any) => {
+    setdeleteID(e.currentTarget.id);
+    setstModal(!stModal);
+  }
+
   const filter = searchFilter(data);
   const nbPerPage = 3;
   const lastIndex = currentPage * nbPerPage;
@@ -37,7 +52,35 @@ export default function Table(props:any) {
         setCurrentPage(prev => prev - 1)
     }
   }
-
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    const res = await fetch("/api/destinasi/add", {
+      method: "POST",
+      body: JSON.stringify({
+        nama: e.target.nama.value,
+        alamat: e.target.alamat.value,
+        kontak: e.target.kontak.value,
+        surel: e.target.surel.value,
+        tentang: e.target.tentang.value,
+        kapasitas: Number(e.target.kapasitas.value),
+        harga:  Number(e.target.harga.value),
+        location: new GeoPoint(Number(e.target.lat.value), Number(e.target.lon.value)),
+      }),
+    });
+    if(res.status===200){
+      e.target.reset();
+      push("/admin/destinasi");
+      setLoading(false);
+      setError("");
+      alert("Berhasilang Menyimpan Data");
+    }else{
+      console.log(res);
+      setError("Gagal Menyimpan Data");
+      setLoading(false);
+    }
+  };
   return (
     <div className="w-full h-fit my-5 p-5 border-2 rounded">
       <div className='w-full'>
@@ -90,7 +133,7 @@ export default function Table(props:any) {
                       </Button>
                     </Link>
                     
-                    <Button variant="bg-red-500 ml-1" id={item.id}>
+                    <Button variant="bg-red-500 ml-1" id={item.id} onClick={handleOnClick}>
                       <FaFileCircleMinus />
                     </Button>
                     </td>
@@ -100,6 +143,33 @@ export default function Table(props:any) {
             }
           </tbody>
         </table>
+        <Modal title={deleteID} stModal={stModal}>
+        <form className="w-full" onSubmit={(e)=>handleSubmit(e)}>
+          <div className="flex flex-wrap -mx-3 mb-6">
+            <InputForm tipe="text" label="Nama Destinasi" name="nama" type="text" placeholder="Nama Destinasi..." divWidth="md:w-1/4"/>
+            <InputForm tipe="text" label="Alamat" name="alamat" type="text" placeholder="" divWidth="md:w-1/4"/>
+            <InputForm tipe="text" label="Kontak" name="kontak" type="text" placeholder="08xxxxxxx" divWidth="md:w-1/4"/>
+            <InputForm tipe="text" label="Surel" name="surel" type="email" placeholder="gpa@gmail.com" divWidth="md:w-1/4"/>
+          </div>
+          <div className="flex flex-wrap -mx-3 mb-6">
+            <InputForm tipe="textarea" label="Tentang" name="tentang" type="" placeholder="" divWidth="md:w-full"/>
+          </div>
+          <div className="flex flex-wrap -mx-3 mb-6">
+            <InputForm tipe="text" label="Kapasitas" name="kapasitas" type="number" placeholder="1" divWidth="md:w-1/4"/>
+            <InputForm tipe="text" label="Harga Tiket" name="harga" type="number" placeholder="1" divWidth="md:w-1/4"/>
+            
+            
+            
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="md:w-1/4">
+              <Button variant="bg-blue-500 w-full text-sm" type="submit">
+                  Simpan
+              </Button>
+            </div>
+          </div>
+        </form>
+        </Modal>
       </div>
       
       <div className="flex justify-end ">

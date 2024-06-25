@@ -1,18 +1,21 @@
 "use client";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { FaRegCircleXmark } from "react-icons/fa6";
 
-export default function Modal(props:any) {
-  const { children, title} = props;
-  const [Modal, setModal] = useState(false);
+export default function Modal(props:any,) {
+  const { children, title, stModal} = props;
+  const [Modal, setModal] = useState(stModal);
+
+  
+  useEffect(()=>{
+    setModal(stModal)
+  }, [stModal]);
+
   const handleOnClick = () => {
     setModal(!Modal);
   }
   return (
-  <>
-  <button data-modal-target="default-modal" data-modal-toggle="default-modal" onClick={handleOnClick} className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-    Toggle modal
-  </button>
+  
   <div id="default-modal" aria-hidden="true" className={`${Modal ? "block" : "invisible"} fixed top-0 right-0 left-0 md:left-1/3 z-50 w-full`}>
     <div className="relative p-4 w-full max-w-2xl max-h-full">
       <div className="relative bg-white rounded-lg shadow">
@@ -33,7 +36,7 @@ export default function Modal(props:any) {
       </div>
     </div>
   </div>
-  </>
+  
 
   );
 }

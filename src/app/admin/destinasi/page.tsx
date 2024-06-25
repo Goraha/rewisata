@@ -1,5 +1,5 @@
 
-import Table from "../components/Elements/Table";
+import DaftarDes from "./components/Fragments/DaftarDes";
 async function getData() {
   const res = await fetch('http://localhost:3000/api/destinasi',
     {
@@ -19,7 +19,7 @@ export default async function Page() {
     <main className="py-24">
        <div className="p-4 sm:ml-64">
         <div className="p-4">
-          <Table data={data.data}/>
+          <DaftarDes data={data.data}/>
         </div>
       </div>
     </main>
