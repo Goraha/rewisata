@@ -1,6 +1,4 @@
 'use client'
-import { FaLocationCrosshairs,FaRegCircleXmark } from "react-icons/fa6";
-import { GeoPoint} from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useState} from "react";
 import { FaFilePen,FaFileCircleMinus,FaMagnifyingGlass,FaFileCirclePlus,FaChevronRight,FaChevronLeft } from "react-icons/fa6";
@@ -9,7 +7,7 @@ import Link from 'next/link';
 import Modal from "../../../components/LayModal";
 import InputForm from "../../../components/Elements/Input";
 
-export default function DaftarDes(props:any) {
+export default function DaftarPen(props:any) {
   const {data,} = props;
   const [stModal,setstModal] = useState(false);
   const [deleteID,setdeleteID] = useState("");
@@ -24,11 +22,9 @@ export default function DaftarDes(props:any) {
   const [search, setSearch] = useState('');
   const searchFilter = (array:any) => {
     return array.filter(
-      (el:any) => el.nama.toLowerCase().includes(search)
+      (el:any) => el.username.toLowerCase().includes(search)
     )
   }
-
-    
   const handleChange = (e:any) => {
     setSearch(e.target.value);
   }
@@ -89,7 +85,7 @@ export default function DaftarDes(props:any) {
   return (
     <div className="w-full h-fit my-5 p-5 border-2 rounded">
       <div className='w-full'>
-        <h1 className='text-2xl font-bold'>Data Destinasi</h1>
+        <h1 className='text-2xl font-bold'>Data Pengelola</h1>
       </div>
       <div className="flex justify-end ">
         <div className="relative flex rounded-lg shadow-sm">
@@ -101,7 +97,7 @@ export default function DaftarDes(props:any) {
         </div>
       </div>
       <div className='w-full mt-5 flex justify-end'>
-      <Link href={`/admin/destinasi/tambah`}>
+      <Link href={`/admin/pengelola/tambah`}>
         <Button variant="bg-blue-500">
           <FaFileCirclePlus />
         </Button>
@@ -111,9 +107,8 @@ export default function DaftarDes(props:any) {
         <table className="w-full table-auto">
           <thead>
           <tr>
-            <th>Nama</th>
-            <th>Kapasitas</th>
-            <th>Harga Tiket</th>
+            <th>Username</th>
+            <th>Password</th>
             <th>Aksi</th>
           </tr>
           </thead>
@@ -122,25 +117,18 @@ export default function DaftarDes(props:any) {
               records.map((item: any) => {
                 return (
                   <tr key={item.id} className="bg-white border-b hover:bg-gray-50">
-                    <td>
-                      {item.nama}
+                    <td className='text-center'>
+                      {item.username}
                     </td>
                     <td className='text-center'>
-                      {item.kapasitas}
-                    </td>
-                    <td className='text-center'>
-                      {item.harga}
+                      {item.password}
                     </td>
                     <td className='text-center w-1/6'>
-                    <Link href={`/admin/destinasi/ubah?id=${item.id}`}>
+                    <Link href={`/admin/pengelola/ubah?id=${item.id}`}>
                       <Button variant="bg-blue-500">
                         <FaFilePen />
                       </Button>
                     </Link>
-                    
-                    <Button variant="bg-red-500 ml-1" id={item.id} onClick={handleOnClick}>
-                      <FaFileCircleMinus />
-                    </Button>
                     </td>
                   </tr>
                 )
